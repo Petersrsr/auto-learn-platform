@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>网课代挂下单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: "Noto Serif SC", "Helvetica Neue", Arial, sans-serif;
+            background: #f2f3f5;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .left, .right {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        @media (min-width: 768px) {
+            .left, .right {
+                width: 45%;
+            }
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-check {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+        }
+        .btn-check:hover {
+            background-color: #1976D2;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .btn-submit:hover {
+            background-color: #388E3C;
+        }
+        #courseList {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<h1>网课代挂系统</h1>
+
+<div class="container">
+
+    <div class="left">
+        <h3>在线下单</h3>
+        <select id="platform">
+            <option value="3624">【IKUN】学习通 · 做收件箱考试【超能版】（￥3.65）</option>
+            <option value="3625">【IKUN】学习通 · 做在线考试【超能版】（￥3.65）</option>
+            <option value="3626">【IKUN】学习通 · 做章节【超能版】（￥3.65）</option>
+            <option value="3627">【IKUN】学习通 · 做作业【超能版】（￥3.65）</option>
+            <option value="3628">【IKUN】学习通 · 做考试【超能版】（￥3.65）</option>
+            <option value="3629">【IKUN】学习通 · 全包【超能版】（￥3.65）</option>
+            <!-- 后续继续按你的新价格表完整补充 -->
+        </select>
+        <input type="text" id="school" placeholder="请输入学校名称">
+        <input type="text" id="user" placeholder="请输入学生账号">
+        <input type="password" id="pass" placeholder="请输入学生密码">
+        <button class="btn-check" onclick="checkCourse()">🔍 查课</button>
+        <button class="btn-submit" onclick="submitOrder()">📤 提交订单</button>
+        <div style="font-size:13px;color:gray;margin-top:10px">
+            <p>提示：查课后请勾选课程再提交订单哦！</p>
+        </div>
+    </div>
+
+    <div class="right">
+        <h3>查询结果</h3>
+        <div id="courseList">请先查询课程...</div>
+    </div>
+
+</div>
+
+<div id="result"></div>
+
+<script>
+    const UID = '4';
+    const KEY = 'dgZIiIn72IAN1IIa';  <!-- ✅ 已改成你的新 key！ -->
+
+    function checkCourse() {
+        const user = document.getElementById('user').value.trim();
+        const pass = document.getElementById('pass').value.trim();
+        const school = document.getElementById('school').value.trim();
+
+        if (!user || !pass || !school) {
+            alert('请完整填写学校、账号和密码！');
+            return;
+        }
+
+        document.getElementById('courseList').innerHTML = '查询中，请稍候...';
+
+        fetch('http://www.xn--zoxz78b5fn.cn/api.php?act=get', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uid: UID,
+                key: KEY,
+                platform: document.getElementById('platform').value,
+                user,
+                pass,
+                school
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.data && data.data.length > 0) {
+                let html = '';
+                data.data.forEach((course, idx) => {
+                    html += `<label><input type='checkbox' name='courses' value='${course.name}'> ${course.name}</label><br>`;
+                });
+                document.getElementById('courseList').innerHTML = html;
+            } else {
+                document.getElementById('courseList').innerHTML = '未查询到课程，请检查账号密码或联系管理员';
+            }
+        })
+        .catch(error => {
+            document.getElementById('courseList').innerHTML = '查询失败，请重试';
+            console.error(error);
+        });
+    }
+
+    function submitOrder() {
+        const user = document.getElementById('user').value.trim();
+        const pass = document.getElementById('pass').value.trim();
+        const school = document.getElementById('school').value.trim();
+        const selected = Array.from(document.querySelectorAll('input[name=courses]:checked')).map(input => input.value);
+
+        if (selected.length === 0) {
+            alert('请选择至少一门课程！');
+            return;
+        }
+
+        document.getElementById('result').innerHTML = '提交中，请稍候...';
+
+        fetch('http://www.xn--zoxz78b5fn.cn/api.php?act=add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uid: UID,
+                key: KEY,
+                platform: document.getElementById('platform').value,
+                user,
+                pass,
+                school,
+                courses: selected
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('订单提交成功！');
+            document.getElementById('result').innerText = '提交结果:\n' + JSON.stringify(data, null, 4);
+        })
+        .catch(error => {
+            document.getElementById('result').innerText = '提交失败，请重试';
+            console.error(error);
+        });
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>简单查课系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f7f7f7;
+      }
+      input,
+      button {
+        display: block;
+        margin: 10px 0;
+        padding: 8px;
+        width: 100%;
+        max-width: 400px;
+      }
+      #result {
+        margin-top: 20px;
+        background: #fff;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>简单查课网站</h2>
+
+    <input type="text" id="school" placeholder="请输入学校" />
+    <input type="text" id="user" placeholder="请输入账号" />
+    <input type="password" id="pass" placeholder="请输入密码" />
+    <button onclick="checkCourse()">查课</button>
+    <button onclick="submitOrder()">提交订单</button>
+
+    <div id="result"></div>
+
+    <script>
+      const uid = "4";
+      const key = "dgZIiIn72IAN1IIa";
+      const platform = "3665";
+
+      function checkCourse() {
+        const school = document.getElementById("school").value.trim();
+        const user = document.getElementById("user").value.trim();
+        const pass = document.getElementById("pass").value.trim();
+
+        if (!school || !user || !pass) {
+          alert("请填写完整信息");
+          return;
+        }
+
+        document.getElementById("result").innerText = "查询中...";
+
+        fetch("http://www.xn--zoxz78b5fn.cn/api.php?act=get", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ uid, key, platform, user, pass, school }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("result").innerText = JSON.stringify(
+              data,
+              null,
+              2
+            );
+          })
+          .catch((err) => {
+            document.getElementById("result").innerText = "查询失败，请重试";
+            console.error(err);
+          });
+      }
+
+      function submitOrder() {
+        const school = document.getElementById("school").value.trim();
+        const user = document.getElementById("user").value.trim();
+        const pass = document.getElementById("pass").value.trim();
+
+        if (!school || !user || !pass) {
+          alert("请填写完整信息");
+          return;
+        }
+
+        document.getElementById("result").innerText = "提交中...";
+
+        fetch("http://www.xn--zoxz78b5fn.cn/api.php?act=add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ uid, key, platform, user, pass, school }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("result").innerText = JSON.stringify(
+              data,
+              null,
+              2
+            );
+          })
+          .catch((err) => {
+            document.getElementById("result").innerText = "提交失败，请重试";
+            console.error(err);
+          });
+      }
+    </script>
+  </body>
+</html>

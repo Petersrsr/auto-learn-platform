@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网课代挂订单查询</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background-color: #f7f8fa; /* 设置背景颜色 */
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+      }
+
+      /* 弹出提醒框的样式 */
+      .alert-box {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 9999;
+        font-size: 18px;
+        display: none; /* 初始时隐藏 */
+        text-align: center;
+      }
+
+      .alert-box h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      /* 弹出框的按钮样式 */
+      .alert-box button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .alert-box button:hover {
+        background-color: #45a049;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .qr-group {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .qr-section {
+        width: 300px;
+        height: 300px;
+        background-color: #ffffff;
+        border: 1px solid #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .qr-section img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .rectangle {
+        width: 800px;
+        height: 950px;
+        overflow: hidden;
+        border: 2px solid #ffffff;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      @media (max-width: 900px) {
+        .container {
+          flex-direction: column;
+        }
+
+        .rectangle {
+          width: 95vw;
+          height: 80vh;
+        }
+
+        .qr-section {
+          width: 300px;
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 弹出式提醒框 -->
+    <div class="alert-box" id="alert-box">
+      <h2>！！！请仔细阅读！！！</h2>
+      <p>请使用电脑浏览器打开网站</p>
+      <p>请先选择需要的代刷业务，然后进行查课操作。</p>
+      <p>
+        查课时，学校请填写：<em>上海市东海职业技术学院</em>，查出结果后再选择要刷的课程。
+      </p>
+      <p>
+        点击“提交”后，请根据弹出的金额选择支付方式进行支付，支付时请备注学习通账号。
+      </p>
+      <p>
+        后台可以看到你所选的课程，所有学习平台都支持刷课，商品正在持续添加中。
+      </p>
+      <p>
+        如果你需要的平台暂未上线，或者在使用过程中需要帮助，请联系
+        <strong>QQ：1586882550</strong>
+      </p>
+      <button onclick="closeAlert()">确定</button>
+    </div>
+
+    <div class="container">
+      <!-- 左边二维码组：微信 + 支付宝 -->
+      <div class="qr-group">
+        <div class="qr-section">
+          <img src="wechat-qrcode.png" alt="微信收款码" />
+        </div>
+        <div class="qr-section">
+          <img src="alipay-qrcode.png" alt="支付宝收款码" />
+        </div>
+      </div>
+
+      <!-- 中间 iframe 容器 -->
+      <div class="rectangle">
+        <iframe
+          src="http://www.xn--zoxz78b5fn.cn/index/components/onlineStore.php?id=4"
+          title="外部内容"
+        ></iframe>
+      </div>
+
+      <!-- 右边微信群二维码 -->
+      <div class="qr-section">
+        <img src="wechat-group-qrcode.png" alt="微信群二维码" />
+      </div>
+    </div>
+
+    <script>
+      // 页面加载时显示弹出提醒框
+      window.onload = function () {
+        var alertBox = document.getElementById("alert-box");
+        alertBox.style.display = "block"; // 显示提醒框
+      };
+
+      // 关闭弹出框的函数
+      function closeAlert() {
+        var alertBox = document.getElementById("alert-box");
+        alertBox.style.display = "none"; // 隐藏提醒框
+      }
+    </script>
+  </body>
+</html>

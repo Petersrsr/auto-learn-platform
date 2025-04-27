@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网课代挂订单查询</title>
+    <style>
+      /* 设置网页全局背景颜色 */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background-color: #f7f8fa; /* 设置背景颜色 */
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+      }
+
+      /* 设置长方形容器的尺寸和边框 */
+      .rectangle {
+        width: 600px;
+        height: 700px;
+        overflow: hidden; /* 防止内容溢出 */
+      }
+
+      /* 设置iframe的尺寸 */
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none; /* 去掉iframe的边框 */
+      }
+
+      /* 弹出提醒框的样式 */
+      .alert-box {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 9999;
+        font-size: 18px;
+        display: none;
+        text-align: center;
+      }
+
+      .alert-box h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 弹出式提醒框 -->
+    <div class="alert-box" id="alert-box">
+      <h2>！！！请仔细阅读！！！</h2>
+      <p>请使用电脑浏览器打开网站</p>
+      <p>查课进度条UI未完善，请看百分比</p>
+    </div>
+
+    <!-- 长方形容器 -->
+    <div class="rectangle">
+      <!-- 使用iframe加载外部链接 -->
+      <iframe
+        src="https://www.xn--zoxz78b5fn.cn/get/"
+        title="外部内容"
+      ></iframe>
+    </div>
+
+    <script>
+      // 显示弹出提醒框
+      window.onload = function () {
+        var alertBox = document.getElementById("alert-box");
+        alertBox.style.display = "block";
+
+        // 设置弹出框显示 5 秒后自动消失
+        setTimeout(function () {
+          alertBox.style.display = "none";
+        }, 5000); // 5000 毫秒 = 5 秒
+      };
+    </script>
+  </body>
+</html>

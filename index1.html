@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>网课代挂订单查询</title>
+    <style>
+      /* 设置网页全局背景颜色 */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        background-color: #f2f2f2; /* 设置背景颜色 */
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+      }
+
+      /* 设置长方形容器的尺寸和边框 */
+      .rectangle {
+        width: 90vw; /* 宽度为视口的 90% */
+        height: 80vh; /* 高度为视口的 80% */
+        overflow: hidden; /* 防止内容溢出 */
+        border: 2px solid #f2f2f2; /* 设置边框 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* 设置iframe的尺寸，使其自适应容器 */
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none; /* 去掉iframe的边框 */
+      }
+
+      /* 对小屏设备进行优化，确保iframe容器不会过高 */
+      @media (max-width: 768px) {
+        .rectangle {
+          width: 95vw; /* 在手机设备上容器宽度为 95% */
+          height: 70vh; /* 高度为视口的 70% */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 长方形容器 -->
+    <div class="rectangle">
+      <!-- 使用iframe加载外部链接 -->
+      <iframe
+        src="http://www.xn--zoxz78b5fn.cn/index/components/onlineStore.php?id=4"
+        title="外部内容"
+      ></iframe>
+    </div>
+  </body>
+</html>

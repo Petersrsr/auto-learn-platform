@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>易支付测试支付</title>
+</head>
+<body>
+  <h2>测试支付 - 2元</h2>
+
+  <form action="https://pay.dcfd.fun/submit.php" method="POST">
+    <!-- 商户ID -->
+    <input type="hidden" name="pid" value="1511">
+
+    <!-- 支付方式：支付宝 -->
+    <input type="hidden" name="type" value="alipay">
+
+    <!-- 商户订单号：随机生成，要唯一 -->
+    <input type="hidden" name="out_trade_no" value="test<?=time()?>">
+
+    <!-- 通知URL（支付完成后会调用） -->
+    <input type="hidden" name="notify_url" value="https://yourdomain.com/notify.php">
+
+    <!-- 跳转URL（支付完成后跳回网站） -->
+    <input type="hidden" name="return_url" value="https://yourdomain.com/return.php">
+
+    <!-- 商品名称 -->
+    <input type="hidden" name="name" value="测试产品">
+
+    <!-- 金额：2元 -->
+    <input type="hidden" name="money" value="2">
+
+    <!-- 自定义参数，可选 -->
+    <input type="hidden" name="param" value="test">
+
+    <!-- 签名类型 -->
+    <input type="hidden" name="sign_type" value="MD5">
+
+    <!-- 签名（需要合理生成） -->
+    <input type="hidden" name="sign" value="">
+
+    <button type="submit">立即支付 2元</button>
+  </form>
+
+  <script>
+    // 在前端不能直接生成 MD5 签名，需要服务器端签名
+    // 如果你是简单测试，可以暂时将 sign 省略，省略时是不验签的
+  </script>
+</body>
+</html>
